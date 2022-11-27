@@ -18,11 +18,17 @@ def get_data_from_json(path):
         return data
 
 
-def load_all_posts(path):
+def load_all_posts(path, limit_length=0):
     """
     Возврат всех считанных постов
     """
-    return get_data_from_json(path)
+    if limit_length == 0:
+        return get_data_from_json(path)
+    else:  # c ограничением в Limit символов текста поста
+        data_posts = get_data_from_json(path)
+        for datp in data_posts:
+            datp['content'] = datp['content'][:limit_length] + '...'
+        return data_posts
 
 
 def filter_str_posts(posts, key_post, search_word):
